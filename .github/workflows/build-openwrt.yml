@@ -22,6 +22,7 @@ on:
 #    - cron: 0 8 * * 5
   watch:
     types: [started]
+    if: github.event.repository.owner.id == github.event.sender.id
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -98,28 +99,27 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j8 V=s
-        echo "::set-output name=status::success"
+        #make -j$(nproc) || make -j8 V=s
+        make -j1 V=s
 
     - name: Upload bin directory
       uses: actions/upload-artifact@master
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      if: success() && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: OpenWrt_directory
+        name: OpenWrt_bin
         path: openwrt/bin
 
     - name: Organize files
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: success() && !cancelled() && env.UPLOAD_FIRMWARE == 'true'
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "::set-env name=FIRMWARE::$(pwd)"
-        echo "::set-output name=status::success"
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@master
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: success() && !cancelled()
       with:
         name: OpenWrt_firmware
         path: ${{ env.FIRMWARE }}
