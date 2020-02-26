@@ -6,14 +6,14 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Build OpenWrt Lienol-19.07
+name: Build OpenWrt Lienol-Asus-RT-AC68U
 
 on:
   release:
     types: [published]
   push:
     branches:
-      - Lienol-19.07
+      - Lienol-Asus-RT-AC68U
     paths:
       - '.config'
       - '.github/workflows/build-openwrt.yml'
@@ -30,8 +30,8 @@ env:
   CONFIG_FILE: .config
   DIY_SH: diy.sh
   FREE_UP_DISK: false
-  SSH_ACTIONS: false
-  UPLOAD_BIN_DIR: true
+  SSH_ACTIONS: true
+  UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
 
@@ -106,7 +106,7 @@ jobs:
       uses: actions/upload-artifact@master
       if: success() && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: OpenWrt_bin
+        name: OpenWrt_bin_Asus-RT-AC68U
         path: openwrt/bin
 
     - name: Organize files
@@ -121,5 +121,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: success() && !cancelled()
       with:
-        name: OpenWrt_firmware
+        name: OpenWrt_firmware_Asus-RT-AC68U
         path: ${{ env.FIRMWARE }}
