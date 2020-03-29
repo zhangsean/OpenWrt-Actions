@@ -6,7 +6,7 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Build OpenWrt Lienol-Lean-LEDE
+name: Build OpenWrt Lienol-Master
 
 on:
   release:
@@ -25,7 +25,7 @@ on:
 
 env:
   REPO_URL: https://github.com/Lienol/openwrt
-  REPO_BRANCH: dev-lean-lede
+  REPO_BRANCH: dev-master
   CONFIG_FILE: .config
   DIY_SH: diy.sh
   FREE_UP_DISK: false
@@ -120,5 +120,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: success() && !cancelled()
       with:
-        name: OpenWrt_Lienol-Lean-LEDE_firmware
+        name: OpenWrt_Lienol-Master_firmware
         path: ${{ env.FIRMWARE }}
