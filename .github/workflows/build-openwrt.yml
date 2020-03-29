@@ -6,20 +6,19 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Build OpenWrt Lienol-19.07
+name: Build OpenWrt Lienol-Lean-LEDE
 
 on:
   release:
     types: [published]
   push:
     branches:
-      - Lienol-19.07
+      - lienol-lean-lede
     paths:
       - '.config'
       - '.github/workflows/build-openwrt.yml'
-
-#  schedule:
-#    - cron: 0 8 * * 5
+  schedule:
+    - cron: 0 0 * * 5
   watch:
     types: [started]
     if: github.event.repository.owner.id == github.event.sender.id
@@ -31,7 +30,7 @@ env:
   DIY_SH: diy.sh
   FREE_UP_DISK: false
   SSH_ACTIONS: false
-  UPLOAD_BIN_DIR: true
+  UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
 
@@ -121,5 +120,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: success() && !cancelled()
       with:
-        name: OpenWrt_firmware
+        name: OpenWrt_Lienol-Lean-LEDE_firmware
         path: ${{ env.FIRMWARE }}
