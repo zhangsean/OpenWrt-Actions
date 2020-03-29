@@ -17,21 +17,20 @@ on:
     paths:
       - '.config'
       - '.github/workflows/build-openwrt.yml'
-
-#  schedule:
-#    - cron: 0 8 * * 5
+  schedule:
+    - cron: 0 0 * * 5
   watch:
     types: [started]
     if: github.event.repository.owner.id == github.event.sender.id
 
 env:
   REPO_URL: https://github.com/Lienol/openwrt
-  REPO_BRANCH: dev-lean-lede
+  REPO_BRANCH: dev-19.07
   CONFIG_FILE: .config
   DIY_SH: diy.sh
   FREE_UP_DISK: false
   SSH_ACTIONS: false
-  UPLOAD_BIN_DIR: true
+  UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
 
@@ -106,7 +105,7 @@ jobs:
       uses: actions/upload-artifact@master
       if: success() && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: OpenWrt_bin
+        name: OpenWrt_Lienol-19.07_bin
         path: openwrt/bin
 
     - name: Organize files
@@ -121,5 +120,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: success() && !cancelled()
       with:
-        name: OpenWrt_firmware
+        name: OpenWrt_Lienol-19.07_firmware
         path: ${{ env.FIRMWARE }}
