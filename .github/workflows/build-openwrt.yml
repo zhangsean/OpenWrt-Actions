@@ -18,7 +18,7 @@ on:
       - '.config'
       - '.github/workflows/build-openwrt.yml'
   schedule:
-    - cron: 0 0 * * 5
+    - cron: 0 0 ? * 5
   watch:
     types: [started]
     if: github.event.repository.owner.id == github.event.sender.id
