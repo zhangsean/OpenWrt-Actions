@@ -9,6 +9,8 @@
 name: Build OpenWrt Lienol-Master
 
 on:
+  schedule:
+    - cron: 0 0 ? * 2
   release:
     types: [published]
   push:
@@ -17,8 +19,6 @@ on:
     paths:
       - '.config'
       - '.github/workflows/build-openwrt.yml'
-  schedule:
-    - cron: 0 0 ? * 3
   watch:
     types: [started]
     if: github.event.repository.owner.id == github.event.sender.id
