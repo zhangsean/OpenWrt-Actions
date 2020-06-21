@@ -130,11 +130,11 @@ jobs:
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
-        echo "::info file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+        echo "::debug::$(grep Link cowtransfer.log)"
 
     - name: Upload firmware to WeTransfer
       if: success() && !cancelled() && env.UPLOAD_WETRANSFER == 'true'
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
-        echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
+        echo "::debug::$(grep Link wetransfer.log)"
