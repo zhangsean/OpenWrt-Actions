@@ -112,13 +112,18 @@ jobs:
         name: openWrt_LEDE_master_bin_${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: openwrt/bin
 
+    - name: Upload bin to cowtransfer
+      if: success() && !cancelled() && env.UPLOAD_COWTRANSFER == 'true'
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress openwrt/bin 2>&1 | tee cowtransfer.log
+        echo "::warning::Bin $(grep Link cowtransfer.log)"
+
     - name: Organize files
       id: organize
       if: success() && !cancelled()
       run: |
-        cd openwrt/bin
-        echo "::set-env name=BIN::$(pwd)"
-        cd targets/*/*
+        cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "::set-env name=FIRMWARE::$(pwd)"
 
@@ -129,12 +134,12 @@ jobs:
         name: openWrt_LEDE_master_firmware_${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: Upload bin to cowtransfer
+    - name: Upload firmware to cowtransfer
       if: success() && !cancelled() && env.UPLOAD_COWTRANSFER == 'true'
       run: |
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ${BIN} 2>&1 | tee cowtransfer.log
-        echo "::warning::$(grep Link cowtransfer.log)"
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
+        echo "::warning::Firmware $(grep Link cowtransfer.log)"
 
     - name: Upload firmware to WeTransfer
       if: success() && !cancelled() && env.UPLOAD_WETRANSFER == 'true'
