@@ -115,8 +115,9 @@ jobs:
     - name: Upload bin to cowtransfer
       if: success() && !cancelled() && env.UPLOAD_COWTRANSFER == 'true'
       run: |
+        cd openwrt/bin
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress openwrt/bin 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress $(pwd) 2>&1 | tee cowtransfer.log
         echo "::warning::Bin $(grep Link cowtransfer.log)"
 
     - name: Organize files
