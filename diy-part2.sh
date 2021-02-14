@@ -10,3 +10,7 @@
 
 # Modify default IP
 sed -i 's/192.168.1.1/10.0.8.8/g' package/base-files/files/bin/config_generate
+
+# Fix aliddns script execute permision
+chmod +x package/feeds/kenzo/luci-app-aliddns/root/etc/init.d/aliddns
+chmod +x package/feeds/kenzo/luci-app-aliddns/root/usr/sbin/aliddns
