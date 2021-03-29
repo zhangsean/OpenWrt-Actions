@@ -15,3 +15,4 @@
 sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
 sed -i '$a src-git sean https://github.com/zhangsean/openwrt-packages' feeds.conf.default
 sed -i '$a src-git passwall https://github.com/project-openwrt/openwrt-passwall' feeds.conf.default
+sed -i '$a src-git iptvhelper https://github.com/riverscn/openwrt-iptvhelper' feeds.conf.default
