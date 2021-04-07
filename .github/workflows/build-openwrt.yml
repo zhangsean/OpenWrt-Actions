@@ -22,15 +22,15 @@ on:
     - cron: 0 0 * * 5
   #release:
   #  types: [published]
-  #push:
-  #  branches:
-  #    - master
-  #  paths:
-  #    - '.config'
-  #    - '.github/workflows/build-openwrt.yml'
-  #watch:
-  #  types: [started]
-  #  if: github.event.repository.owner.id == github.event.sender.id
+  push:
+   branches:
+     - master
+   paths:
+     - '.config'
+     - '.github/workflows/build-openwrt.yml'
+  watch:
+   types: [started]
+   if: github.event.repository.owner.id == github.event.sender.id
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
