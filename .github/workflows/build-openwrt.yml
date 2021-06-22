@@ -173,7 +173,7 @@ jobs:
         echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
 
     - name: Organize packages files
-      id: organize
+      id: organize-packages
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
         cd openwrt/bin/packages/*
@@ -185,14 +185,14 @@ jobs:
 
     - name: Upload packages directory
       uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_PACKAGES == 'true' && !cancelled()
+      if: steps.organize-packages.outputs.status == 'success' && env.UPLOAD_PACKAGES == 'true' && !cancelled()
       with:
         name: openWrt_LEDE_master_packages_${{ env.PACKAGES }}${{ env.FILE_DATE }}
         path: ${{ env.PACKAGES }}
 
     - name: Upload packages to cowtransfer
       id: cow-packages
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_PACKAGES_COWTRANSFER == 'true' && !cancelled()
+      if: steps.organize-packages.outputs.status == 'success' && env.UPLOAD_PACKAGES_COWTRANSFER == 'true' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow -s -p 64 --no-progress ${PACKAGES} 2>&1 | tee cowtransfer.log
@@ -201,7 +201,7 @@ jobs:
 
     - name: Upload packages to WeTransfer
       id: we-packages
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_PACKAGES_WETRANSFER == 'true' && !cancelled()
+      if: steps.organize-packages.outputs.status == 'success' && env.UPLOAD_PACKAGES_WETRANSFER == 'true' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${PACKAGES} 2>&1 | tee wetransfer.log
