@@ -216,8 +216,8 @@ jobs:
         touch release.txt
         [ $UPLOAD_COWTRANSFER = true ] && echo "[Firmware Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "[Firmware WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
-        [ $UPLOAD_COWTRANSFER = true ] && echo "[Packages Cowtransfer](${{ steps.cow-packages.outputs.url }})" >> release.txt
-        [ $UPLOAD_WETRANSFER = true ] && echo "[Packages WeTransfer](${{ steps.we-packages.outputs.url }})" >> release.txt
+        [ $UPLOAD_PACKAGES_COWTRANSFER = true ] && echo "[Packages Cowtransfer](${{ steps.cow-packages.outputs.url }})" >> release.txt
+        [ $UPLOAD_PACKAGES_WETRANSFER = true ] && echo "[Packages WeTransfer](${{ steps.we-packages.outputs.url }})" >> release.txt
         echo "::set-output name=status::success"
 
     - name: Upload firmware to release
