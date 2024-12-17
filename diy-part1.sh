@@ -9,7 +9,7 @@
 #=============================================================
 
 # Uncomment a feed source
-sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+#sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
 sed -i '1i src-git sean https://github.com/zhangsean/openwrt-packages' feeds.conf.default
